@@ -10,6 +10,7 @@ part 'database.g.dart';
 class Words extends Table {
   TextColumn get strQuestion => text()();
   TextColumn get strAnswer => text()();
+  BoolColumn get isMemorized => boolean().withDefault(Constant(false))();
   @override
   Set<Column> get primaryKey => {strQuestion};
 }
@@ -19,7 +20,18 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (Migrator m) {
+          return m.createAll();
+        },
+        onUpgrade: (Migrator m, int from, int to) async {
+          if (from == 1) {
+            await m.addColumn(words, words.isMemorized);
+          }
+        }
+      );
 
   //Create
   Future addWord(Word word) => into(words).insert(word);

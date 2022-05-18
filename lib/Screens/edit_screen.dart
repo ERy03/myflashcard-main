@@ -148,6 +148,7 @@ class _EditScreenState extends State<EditScreen> {
     var word = Word(
       strQuestion: questionController.text,
       strAnswer: answerController.text,
+      isMemorized: false,
     );
 
     try {
@@ -162,6 +163,7 @@ class _EditScreenState extends State<EditScreen> {
         gravity: ToastGravity.BOTTOM,
       );
     } on SqliteException catch (e) {
+        print(e.toString());
       Fluttertoast.showToast(
         msg: "この問題は既に登録されていますので登録できません",
         toastLength: Toast.LENGTH_LONG,
@@ -188,6 +190,7 @@ class _EditScreenState extends State<EditScreen> {
     var word = Word(
       strQuestion: questionController.text,
       strAnswer: answerController.text,
+      isMemorized: false,
     );
 
     try {
