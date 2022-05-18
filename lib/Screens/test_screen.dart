@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 enum TestStatus {
@@ -17,6 +19,8 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
+  int _numberofQuestion = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +36,7 @@ class _TestScreenState extends State<TestScreen> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 10.0),
             _numberOfQuestionsPart(),
             _questionCardPart(),
             _answerCardPart(),
@@ -43,7 +48,14 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Widget _numberOfQuestionsPart() {
-    return Container(); //TODO
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text("のこり問題数", style: TextStyle(fontSize: 14.0),),
+        SizedBox(width: 28.0,),
+        Text(_numberofQuestion.toString(), style: TextStyle(fontSize: 24.0),),
+      ],
+    );
   }
 
   Widget _questionCardPart() {
