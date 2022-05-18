@@ -109,6 +109,10 @@ class _EditScreenState extends State<EditScreen> {
 
   _addNewWord() async {
     if (questionController.text.isEmpty || answerController.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "問題と答えの両方を入力しないと登録できません",
+        toastLength: Toast.LENGTH_LONG,
+      );
       return;
     }
     var word = Word(
@@ -120,14 +124,10 @@ class _EditScreenState extends State<EditScreen> {
     answerController.clear();
 
     //登録完了メッセージ
-    FlutterToast.showToast(
+    Fluttertoast.showToast(
       msg: "登録完了しました",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black,
-      textColor: Colors.white,
-      fontSize: 16.0,
     );
   }
 }
