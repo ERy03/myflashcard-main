@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myflashcard/main.dart';
 import 'package:myflashcard/db/database.dart';
-import 'package:myflashcard/screens/edit_screen.dart';
 
+
+import 'edit_screen.dart';
 
 class WordListScreen extends StatefulWidget {
   const WordListScreen({Key? key}) : super(key: key);
@@ -44,7 +45,9 @@ List<Word> _wordList = [];
 
   _addNewWord() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => EditScreen()));
+        context, MaterialPageRoute(builder: (context) => EditScreen(
+          status: EditStatus.ADD,
+        )));
   }
 
   void _getAllWords() async {
@@ -69,7 +72,7 @@ List<Word> _wordList = [];
       child: ListTile(
         title: Text(_wordList[position].strQuestion),
         subtitle: Text(_wordList[position].strAnswer, style: TextStyle(fontFamily: "Mont")),
-        // onTap: () => _editWord(position),
+        onTap: () => _editWord(_wordList[position]),
         onLongPress: () => _deleteWord(_wordList[position]),
       ),
     );
@@ -82,5 +85,13 @@ List<Word> _wordList = [];
       toastLength: Toast.LENGTH_LONG,
     );
     _getAllWords();
+  }
+
+  _editWord(Word selectedWord) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => EditScreen(
+          status: EditStatus.EDIT,
+          word: selectedWord,
+        )));
   }
 }

@@ -5,8 +5,16 @@ import 'package:myflashcard/Screens/word_list_screen.dart';
 import 'package:myflashcard/db/database.dart';
 import 'package:myflashcard/main.dart';
 
+enum EditStatus {
+  ADD,
+  EDIT,
+}
+
 class EditScreen extends StatefulWidget {
-  const EditScreen({Key? key}) : super(key: key);
+  final EditStatus status;
+  final Word? word;
+
+  EditScreen({required this.status, this.word});
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -15,6 +23,26 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   TextEditingController questionController = TextEditingController();
   TextEditingController answerController = TextEditingController();
+
+  String _titleText = "";
+
+  bool _isQuestionEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.status == EditStatus.ADD){
+      _isQuestionEnabled = true;
+      _titleText = "新しい単語の追加";
+      questionController.text = "";
+      answerController.text = "";
+    } else {
+      _isQuestionEnabled = false;
+      _titleText = "単語の編集";
+      questionController.text = widget.word!.strQuestion;
+      answerController.text = widget.word!.strAnswer;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +53,7 @@ class _EditScreenState extends State<EditScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("新しい単語の追加"),
+          title: Text(_titleText),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -69,6 +97,7 @@ class _EditScreenState extends State<EditScreen> {
           ),
           SizedBox(height: 10.0),
           TextField(
+            enabled: _isQuestionEnabled,
             controller: questionController,
             keyboardType: TextInputType.text,
             textAlign: TextAlign.center,
