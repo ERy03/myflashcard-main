@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:myflashcard/main.dart';
+import 'package:myflashcard/db/database.dart';
+import 'package:myflashcard/screens/edit_screen.dart';
 
-import 'edit_screen.dart';
 
 class WordListScreen extends StatefulWidget {
   const WordListScreen({Key? key}) : super(key: key);
@@ -10,6 +13,15 @@ class WordListScreen extends StatefulWidget {
 }
 
 class _WordListScreenState extends State<WordListScreen> {
+
+List<Word> _wordList = [];
+
+@override
+  void initState() {
+    super.initState();
+    _getAllWords();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +29,9 @@ class _WordListScreenState extends State<WordListScreen> {
         title: const Text("単語一覧"),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text("WordListScreen"),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _wordListWidget(),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -32,5 +45,42 @@ class _WordListScreenState extends State<WordListScreen> {
   _addNewWord() {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => EditScreen()));
+  }
+
+  void _getAllWords() async {
+    _wordList = await database.allWords;
+    setState(() {});
+  }
+
+  Widget _wordListWidget() {
+    return ListView.builder(
+      itemCount: _wordList.length,
+      itemBuilder: (context, int position) => _wordListItem(position),
+    );
+  }
+
+  _wordListItem(int position) {
+    return Card(
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      color: Colors.grey[600],
+      child: ListTile(
+        title: Text(_wordList[position].strQuestion),
+        subtitle: Text(_wordList[position].strAnswer, style: TextStyle(fontFamily: "Mont")),
+        // onTap: () => _editWord(position),
+        onLongPress: () => _deleteWord(_wordList[position]),
+      ),
+    );
+  }
+
+  _deleteWord(Word selectedWord) async{
+    await database.deleteWord(selectedWord);
+    Fluttertoast.showToast(
+      msg: "単語を削除しました",
+      toastLength: Toast.LENGTH_LONG,
+    );
+    _getAllWords();
   }
 }

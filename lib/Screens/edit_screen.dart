@@ -1,3 +1,4 @@
+import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myflashcard/Screens/word_list_screen.dart';
@@ -119,15 +120,23 @@ class _EditScreenState extends State<EditScreen> {
       strQuestion: questionController.text,
       strAnswer: answerController.text,
     );
-    await database.addWord(word);
-    questionController.clear();
-    answerController.clear();
 
-    //登録完了メッセージ
-    Fluttertoast.showToast(
-      msg: "登録完了しました",
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-    );
+    try {
+      await database.addWord(word);
+      questionController.clear();
+      answerController.clear();
+
+      //登録完了メッセージ
+      Fluttertoast.showToast(
+        msg: "登録完了しました",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } on SqliteException catch (e) {
+      Fluttertoast.showToast(
+        msg: "この問題は既に登録されていますので登録できません",
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
   }
 }

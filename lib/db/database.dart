@@ -24,7 +24,7 @@ class MyDatabase extends _$MyDatabase {
   //Create
   Future addWord(Word word) => into(words).insert(word);
   //Read
-  Future<List<Word>> get AllWords => select(words).get();
+  Future<List<Word>> get allWords => select(words).get();
   //Update
   Future updateWord(Word word) => update(words).replace(word);
   //Delete
