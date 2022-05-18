@@ -19,7 +19,11 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  int _numberofQuestion = 0;
+  int _numberofQuestion = 0; //TODO
+
+  String _txtQuestion = "問題"; //TODO
+
+  String _txtAnswer = "答え"; //TODO
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +40,11 @@ class _TestScreenState extends State<TestScreen> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 10.0),
+            SizedBox(height: 10.0,),
             _numberOfQuestionsPart(),
+            SizedBox(height: 20.0,),
             _questionCardPart(),
+            SizedBox(height: 10.0,),
             _answerCardPart(),
             _isMemorizedCheckPart(),
           ],
@@ -59,11 +65,23 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Widget _questionCardPart() {
-    return Container(); //TODO
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget> [
+        Image.asset("assets/images/image_flash_question.png"),
+        Text(_txtQuestion, style: TextStyle(fontSize: 20.0, color: Colors.grey[800]),)
+      ]
+    );
   }
 
   Widget _answerCardPart() {
-    return Container(); //TODO
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget> [
+        Image.asset("assets/images/image_flash_answer.png"),
+        Text(_txtAnswer, style: TextStyle(fontSize: 20.0,),)
+      ]
+    );
   }
 
   Widget _isMemorizedCheckPart() {
