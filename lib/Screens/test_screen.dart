@@ -19,7 +19,6 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
-    var isIncludedMemorizedWords = widget.isIncludedMemorizedWords;
     return Scaffold(
       appBar: AppBar(
         title: Text("かくにんテスト"),
@@ -31,8 +30,31 @@ class _TestScreenState extends State<TestScreen> {
         tooltip: "次に進む",
       ),
       body: Center(
-        child: Text("TestScreen: $isIncludedMemorizedWords"),
+        child: Column(
+          children: [
+            _numberOfQuestionsPart(),
+            _questionCardPart(),
+            _answerCardPart(),
+            _isMemorizedCheckPart(),
+          ],
+        )
       ),
     );
+  }
+
+  Widget _numberOfQuestionsPart() {
+    return Container(); //TODO
+  }
+
+  Widget _questionCardPart() {
+    return Container(); //TODO
+  }
+
+  Widget _answerCardPart() {
+    return Container(); //TODO
+  }
+
+  Widget _isMemorizedCheckPart() {
+    return Container(); //TODO
   }
 }
