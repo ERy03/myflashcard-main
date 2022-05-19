@@ -61,19 +61,22 @@ class _TestScreenState extends State<TestScreen> {
         child: Icon(Icons.skip_next),
         tooltip: "次に進む",
       ): null,
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: 10.0,),
-            _numberOfQuestionsPart(),
-            SizedBox(height: 20.0,),
-            _questionCardPart(),
-            SizedBox(height: 10.0,),
-            _answerCardPart(),
-            SizedBox(height: 10.0,),
-            _isMemorizedCheckPart(),
-          ],
-        )
+      body: Stack(
+        children:
+          [Column(
+            children: [
+              SizedBox(height: 10.0,),
+              _numberOfQuestionsPart(),
+              SizedBox(height: 20.0,),
+              _questionCardPart(),
+              SizedBox(height: 10.0,),
+              _answerCardPart(),
+              SizedBox(height: 10.0,),
+              _isMemorizedCheckPart(),
+            ],
+          ),
+          _endMessage(),
+        ]
       ),
     );
   }
@@ -171,9 +174,13 @@ class _TestScreenState extends State<TestScreen> {
       case TestStatus.SHOW_ANSWER:
       _updateMemorizedFlag();
       if(_numberofQuestion <= 0){
-        _testStatus = TestStatus.FINISHED;
+        setState(() {
+          _isFabVisible = false;
+          _testStatus = TestStatus.FINISHED;
+        });
       }else{
         _testStatus = TestStatus.SHOW_QUESTION;
+        _showQuestion();
       }
         break;
       case TestStatus.FINISHED:
@@ -213,5 +220,18 @@ class _TestScreenState extends State<TestScreen> {
     );
     await database.updateWord(updateWord);
     print(updateWord.toString());
+  }
+
+  Widget _endMessage() {
+    if(_testStatus == TestStatus.FINISHED){
+      return Center(
+        child: Text(
+          "テスト終了",
+          style: TextStyle(fontSize: 50.0,),
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 }
