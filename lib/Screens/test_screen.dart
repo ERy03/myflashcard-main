@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:myflashcard/db/database.dart';
+import 'package:myflashcard/main.dart';
+
 
 enum TestStatus {
   BEFORE_START,
@@ -26,6 +29,16 @@ class _TestScreenState extends State<TestScreen> {
   String _txtAnswer = "答え";
 
   bool _isMemorized = false; //TODO
+
+  List<Word> _testDataList = [];
+
+  TestStatus _testStatus = TestStatus.BEFORE_START;
+
+@override
+  void initState() {
+    super.initState();
+    _getTestData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,5 +114,21 @@ class _TestScreenState extends State<TestScreen> {
         },
       ),
     );
+  }
+
+  void _getTestData() async{
+     if(widget.isIncludedMemorizedWords){
+       _testDataList = await database.allWords;
+     }else{
+       _testDataList = await database.allWordsExcludeMemorized;
+     }
+
+    _testDataList.shuffle();
+    _testStatus = TestStatus.BEFORE_START;
+    print(_testDataList);
+
+     setState(() {
+        _numberofQuestion = _testDataList.length;
+      });
   }
 }

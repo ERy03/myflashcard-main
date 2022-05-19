@@ -37,6 +37,10 @@ class MyDatabase extends _$MyDatabase {
   Future addWord(Word word) => into(words).insert(word);
   //Read
   Future<List<Word>> get allWords => select(words).get();
+  //Read depending on a condition
+  Future<List<Word>> get allWordsExcludeMemorized => (select(words)
+        ..where((table) => table.isMemorized.equals(false)))
+      .get();
   //Update
   Future updateWord(Word word) => update(words).replace(word);
   //Delete
