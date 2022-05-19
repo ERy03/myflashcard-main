@@ -22,9 +22,9 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   int _numberofQuestion = 0;
 
-  String _txtQuestion = "問題";
+  String _txtQuestion = "";
 
-  String _txtAnswer = "答え";
+  String _txtAnswer = "";
 
   bool _isMemorized = false;
 
@@ -49,32 +49,35 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("かくにんテスト"),
-        centerTitle: true,
-      ),
-      floatingActionButton: (_isFabVisible && _testDataList.isNotEmpty) ? FloatingActionButton(
-        onPressed: () => _goNextStatus(),
-        child: Icon(Icons.skip_next),
-        tooltip: "次に進む",
-      ): null,
-      body: Stack(
-        children:
-          [Column(
-            children: [
-              SizedBox(height: 10.0,),
-              _numberOfQuestionsPart(),
-              SizedBox(height: 20.0,),
-              _questionCardPart(),
-              SizedBox(height: 10.0,),
-              _answerCardPart(),
-              SizedBox(height: 10.0,),
-              _isMemorizedCheckPart(),
-            ],
-          ),
-          _endMessage(),
-        ]
+    return WillPopScope(
+      onWillPop: () => _finishTestScreen(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("かくにんテスト"),
+          centerTitle: true,
+        ),
+        floatingActionButton: (_isFabVisible && _testDataList.isNotEmpty) ? FloatingActionButton(
+          onPressed: () => _goNextStatus(),
+          child: Icon(Icons.skip_next),
+          tooltip: "次に進む",
+        ): null,
+        body: Stack(
+          children:
+            [Column(
+              children: [
+                SizedBox(height: 10.0,),
+                _numberOfQuestionsPart(),
+                SizedBox(height: 20.0,),
+                _questionCardPart(),
+                SizedBox(height: 10.0,),
+                _answerCardPart(),
+                SizedBox(height: 10.0,),
+                _isMemorizedCheckPart(),
+              ],
+            ),
+            _endMessage(),
+          ]
+        ),
       ),
     );
   }
@@ -228,5 +231,25 @@ class _TestScreenState extends State<TestScreen> {
     } else {
       return Container();
     }
+  }
+
+  Future<bool> _finishTestScreen() async {
+    return await showDialog(context: context, builder: (_) => AlertDialog(
+      title: Text("テスト終了"),
+      content: Text("テストを終了してもいいですか？"),
+      actions: [
+        TextButton(
+          child: Text("はい"),
+          onPressed: (){
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("いいえ"),
+        ),
+      ]
+    )) ?? false;
   }
 }
