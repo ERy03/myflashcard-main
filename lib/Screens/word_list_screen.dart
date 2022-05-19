@@ -87,12 +87,36 @@ List<Word> _wordList = [];
   }
 
   _deleteWord(Word selectedWord) async{
-    await database.deleteWord(selectedWord);
-    Fluttertoast.showToast(
-      msg: "単語を削除しました",
-      toastLength: Toast.LENGTH_LONG,
+
+    showDialog(context: context, barrierDismissible: false, builder: (_) => AlertDialog(
+      title: Text(selectedWord.strQuestion),
+      content: Text("この単語を削除しますか？"),
+      actions: [
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Color.fromARGB(251, 100, 255, 219),
+          ),
+          onPressed: () async{
+            await database.deleteWord(selectedWord);
+            Fluttertoast.showToast(
+              msg: "単語を削除しました",
+              toastLength: Toast.LENGTH_LONG,
+            );
+            _getAllWords();
+            Navigator.pop(context);
+          },
+          child: Text("削除"),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: Color.fromARGB(251, 100, 255, 219),
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: Text("キャンセル"),
+        ),
+      ]
+      )
     );
-    _getAllWords();
   }
 
   _editWord(Word selectedWord) {
