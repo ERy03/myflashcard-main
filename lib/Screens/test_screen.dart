@@ -30,6 +30,11 @@ class _TestScreenState extends State<TestScreen> {
 
   bool _isMemorized = false; //TODO
 
+  bool _isQuestionCardVisible = false;
+  bool _isAnswerCardVisible = false;
+  bool _isCheckBoxVisible = false;
+  bool _isFabVisible = false;
+
   List<Word> _testDataList = [];
 
   TestStatus _testStatus = TestStatus.BEFORE_START;
@@ -48,7 +53,7 @@ class _TestScreenState extends State<TestScreen> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print("You pressed me"), //TODO
+        onPressed: () => _goNextStatus(),
         child: Icon(Icons.skip_next),
         tooltip: "次に進む",
       ),
@@ -81,13 +86,17 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Widget _questionCardPart() {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget> [
-        Image.asset("assets/images/image_flash_question.png"),
-        Text(_txtQuestion, style: TextStyle(fontSize: 20.0, color: Colors.grey[800]),)
-      ]
-    );
+    if(_isQuestionCardVisible){
+      return Stack(
+        alignment: Alignment.center,
+        children: <Widget> [
+          Image.asset("assets/images/image_flash_question.png"),
+          Text(_txtQuestion, style: TextStyle(fontSize: 20.0, color: Colors.grey[800]),)
+        ]
+      );
+    }else{
+      return Container();
+    }
   }
 
   Widget _answerCardPart() {
@@ -127,8 +136,32 @@ class _TestScreenState extends State<TestScreen> {
     _testStatus = TestStatus.BEFORE_START;
     print(_testDataList);
 
-     setState(() {
-        _numberofQuestion = _testDataList.length;
-      });
+    setState(() {
+      _isQuestionCardVisible = false;
+      _isAnswerCardVisible = false;
+      _isCheckBoxVisible = false;
+      _isFabVisible = true;
+      _numberofQuestion = _testDataList.length;
+    });
+  }
+
+  _goNextStatus() {
+    switch (_testStatus) {
+      case TestStatus.BEFORE_START:
+        _testStatus = TestStatus.SHOW_QUESTION;
+        break;
+      case TestStatus.SHOW_QUESTION:
+        _testStatus = TestStatus.SHOW_ANSWER;
+        break;
+      case TestStatus.SHOW_ANSWER:
+      if(_numberofQuestion <= 0){
+        _testStatus = TestStatus.FINISHED;
+      }else{
+        _testStatus = TestStatus.SHOW_QUESTION;
+      }
+        break;
+      case TestStatus.FINISHED:
+        break;
+    }
   }
 }
