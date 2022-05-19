@@ -41,6 +41,10 @@ class MyDatabase extends _$MyDatabase {
   Future<List<Word>> get allWordsExcludeMemorized => (select(words)
         ..where((table) => table.isMemorized.equals(false)))
       .get();
+  //Ordering
+  Future<List<Word>> get allWordsSorted =>
+      (select(words)
+      ..orderBy([(table) => OrderingTerm(expression: table.isMemorized)])).get();
   //Update
   Future updateWord(Word word) => update(words).replace(word);
   //Delete

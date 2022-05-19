@@ -128,7 +128,6 @@ class _TestScreenState extends State<TestScreen> {
           onChanged: (value) {
             setState(() {
               _isMemorized = value!;
-              print(_isMemorized);
             });
           },
         ),
@@ -148,7 +147,6 @@ class _TestScreenState extends State<TestScreen> {
     _testDataList.shuffle();
     _testStatus = TestStatus.BEFORE_START;
     _index = 0;
-    print(_testDataList);
 
     setState(() {
       _isQuestionCardVisible = false;
@@ -217,7 +215,6 @@ class _TestScreenState extends State<TestScreen> {
       isMemorized: _isMemorized
     );
     await database.updateWord(updateWord);
-    print(updateWord.toString());
   }
 
   Widget _endMessage() {

@@ -29,6 +29,13 @@ List<Word> _wordList = [];
       appBar: AppBar(
         title: const Text("単語一覧"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sort),
+            tooltip: "暗記済みの単語を下になるようにソート",
+            onPressed: () => _sortWords(),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
