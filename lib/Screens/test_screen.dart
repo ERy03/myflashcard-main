@@ -114,19 +114,23 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Widget _isMemorizedCheckPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-      child: CheckboxListTile(
-        title: Text("暗記済みにする場合はチェックを入れて下さい", style: TextStyle(fontSize: 12.0),),
-        value: _isMemorized,
-        onChanged: (value) {
-          setState(() {
-            _isMemorized = value!;
-            print(_isMemorized);
-          });
-        },
-      ),
-    );
+    if(_isCheckBoxVisible){
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+        child: CheckboxListTile(
+          title: Text("暗記済みにする場合はチェックを入れて下さい", style: TextStyle(fontSize: 12.0),),
+          value: _isMemorized,
+          onChanged: (value) {
+            setState(() {
+              _isMemorized = value!;
+              print(_isMemorized);
+            });
+          },
+        ),
+      );
+    }else{
+      return Container();
+    }
   }
 
   void _getTestData() async{
