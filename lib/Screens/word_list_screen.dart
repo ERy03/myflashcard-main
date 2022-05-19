@@ -102,4 +102,10 @@ List<Word> _wordList = [];
           word: selectedWord,
         )));
   }
+
+  _sortWords() async{
+    _wordList = await database.allWordsSorted;
+    setState(() {
+    });
+  }
 }
