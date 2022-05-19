@@ -33,7 +33,7 @@ class _TestScreenState extends State<TestScreen> {
   bool _isQuestionCardVisible = false;
   bool _isAnswerCardVisible = false;
   bool _isCheckBoxVisible = false;
-  bool _isFabVisible = false;
+  bool _isFabVisible = true;
 
   List<Word> _testDataList = [];
 
@@ -52,11 +52,11 @@ class _TestScreenState extends State<TestScreen> {
         title: Text("かくにんテスト"),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _isFabVisible ? FloatingActionButton(
         onPressed: () => _goNextStatus(),
         child: Icon(Icons.skip_next),
         tooltip: "次に進む",
-      ),
+      ): null,
       body: Center(
         child: Column(
           children: [
