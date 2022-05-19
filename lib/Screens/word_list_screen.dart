@@ -94,7 +94,7 @@ List<Word> _wordList = [];
       actions: [
         TextButton(
           style: TextButton.styleFrom(
-            primary: Color.fromARGB(251, 100, 255, 219),
+            primary: Colors.white,
           ),
           onPressed: () async{
             await database.deleteWord(selectedWord);
@@ -109,7 +109,7 @@ List<Word> _wordList = [];
         ),
         TextButton(
           style: TextButton.styleFrom(
-            primary: Color.fromARGB(251, 100, 255, 219),
+            primary: Colors.white,
           ),
           onPressed: () => Navigator.pop(context),
           child: Text("キャンセル"),
