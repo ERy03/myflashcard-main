@@ -100,13 +100,17 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Widget _answerCardPart() {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget> [
-        Image.asset("assets/images/image_flash_answer.png"),
-        Text(_txtAnswer, style: TextStyle(fontSize: 20.0,),)
-      ]
-    );
+    if(_isAnswerCardVisible){
+      return Stack(
+        alignment: Alignment.center,
+        children: <Widget> [
+          Image.asset("assets/images/image_flash_answer.png"),
+          Text(_txtAnswer, style: TextStyle(fontSize: 20.0,),)
+        ]
+      );
+    }else {
+      return Container();
+    }
   }
 
   Widget _isMemorizedCheckPart() {
