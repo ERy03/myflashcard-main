@@ -56,7 +56,7 @@ class _TestScreenState extends State<TestScreen> {
         title: Text("かくにんテスト"),
         centerTitle: true,
       ),
-      floatingActionButton: _isFabVisible ? FloatingActionButton(
+      floatingActionButton: (_isFabVisible && _testDataList.isNotEmpty) ? FloatingActionButton(
         onPressed: () => _goNextStatus(),
         child: Icon(Icons.skip_next),
         tooltip: "次に進む",
