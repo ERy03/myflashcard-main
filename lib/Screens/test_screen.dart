@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:myflashcard/db/database.dart';
 import 'package:myflashcard/main.dart';
@@ -22,13 +20,13 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  int _numberofQuestion = 0; //TODO
+  int _numberofQuestion = 0;
 
-  String _txtQuestion = "問題"; //TODO
+  String _txtQuestion = "問題";
 
   String _txtAnswer = "答え";
 
-  bool _isMemorized = false; //TODO
+  bool _isMemorized = false;
 
   bool _isQuestionCardVisible = false;
   bool _isAnswerCardVisible = false;
